@@ -1,0 +1,93 @@
+Class (Blueprint)
+
+A class is a blueprint or model used to define:
+
+properties (data)
+methods (functions)
+
+👉 It does not contain real data, it just defines how objects should be.
+
+Example:
+
+class User {
+    public $name;
+
+    public function sayHello() {
+        echo "Hello " . $this->name;
+    }
+}
+🧍 Object (Instance)
+
+An object is an instance of a class.
+
+👉 It is created using the new keyword and lives in memory (RAM).
+👉 It contains real data and can use the class methods.
+
+Example:
+
+$user1 = new User();
+$user1->name = "Fatima";
+$user1->sayHello();
+🗄️ PDO (PHP Data Objects)
+
+PHP PDO
+
+PDO is a built-in PHP class used to interact with databases.
+
+👉 It allows you to:
+
+connect to a database
+execute queries (SELECT, INSERT, etc.)
+secure your code (prepared statements)
+
+Example:
+
+$pdo = new PDO("mysql:host=localhost;dbname=test", "root", "");
+
+👉 Here:
+
+PDO = class
+$pdo = object (instance)
+
+
+
+📘 PDO Error Handling & setAttribute – Simple Summary
+🔹 Default behavior
+By default, PDO does not throw errors on query failures.
+Instead, it returns false silently.
+This means:
+$stmt = $pdo->query("BAD QUERY");
+if ($stmt === false) {
+    echo "Something went wrong";
+}
+
+You must manually check each query for errors.
+
+🔹 setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)
+This changes PDO’s error behavior.
+Instead of returning false and being silent:
+PDO throws an exception when an error occurs.
+Example:
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+🔹 Using try / catch
+Wrap your database operations in a try block:
+try {
+    $pdo->query("BAD QUERY");
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+✅ If an error occurs:
+Program does not crash
+Execution goes to catch
+You can display or log a custom error message
+🔹 Why use ERRMODE_EXCEPTION?
+Mode	Behavior
+PDO::ERRMODE_SILENT	Returns false (silent)
+PDO::ERRMODE_WARNING	Gives PHP warning
+PDO::ERRMODE_EXCEPTION	Throws exception (best for control)
+Using ERRMODE_EXCEPTION is the recommended way.
+It lets you handle errors gracefully instead of letting the program crash.
+🔹 Summary in one line
+
+setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ensures PDO throws exceptions on errors, 
+allowing you to catch, control,and display errors safely, instead of silently returning false.
